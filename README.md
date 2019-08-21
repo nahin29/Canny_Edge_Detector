@@ -1,6 +1,7 @@
 # CANNY EDGE DETECTION
-
-from ![](assets/README/1.jpg) to ![](assets/README/2.jpg)
+Original                   |  Final
+:-------------------------:|:-------------------------:
+![](assets/README/1.jpg)   |  ![](assets/README/2.jpg)
 
 
 
