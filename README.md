@@ -132,6 +132,11 @@ Since the intensity function of a digital image is only known at discrete points
 
 So each pixel of a gradient image measures the change in intensity of that same point in the original image, in a given direction. To get the full range of direction, gradient images in the x and y directions are computed. After gradient images have been computed, pixels with large gradient values become possible edge pixels. The pixels with the largest gradient values in the direction of the gradient become edge pixels, and edges may be traced in the direction perpendicular to the gradient direction.
 
+The magnitude of the image results in the following output:
+
+Gradient Magnitude                   
+:-------------------------:
+![](assets/README/8.jpg)
 
 
 #### Now about ***Sobel operator (or filter) or Sobel–Feldman operator***
@@ -142,7 +147,7 @@ The operator uses two 3×3 kernels which are convolved with the original image t
 
 ![](assets/README/26.png)
 
-Since the Sobel kernels can be decomposed as the products of an averaging and a differentiation kernel, they compute the gradient with smoothing. For example, {\displaystyle \mathbf {G} _{x}} {\displaystyle \mathbf {G} _{x}} can be written as
+Since the Sobel kernels can be decomposed as the products of an averaging and a differentiation kernel, they compute the gradient with smoothing. For example, G_x can be written as
 
 ![](assets/README/27.png)
 
@@ -157,15 +162,29 @@ Using this information, we can also calculate the gradient's direction:
 where, for example, Θ is 0 for a vertical edge which is lighter on the right side.
 
 
+### STEP 4 - NON MAXIMUM SUPPRESSION
 
+The image magnitude produced results in thick edges. Ideally, the final image should have thin edges. Thus, we must perform non maximum suppression to thin out the edges.
 
+With Interpolation (diagram from Nuno Vasconcelos)                 
+:-------------------------:
+![](assets/README/9.png)
 
+Non maximum suppression works by finding the pixel with the maximum value in an edge. In the above image, it occurs when pixel q has an intensity that is larger than both p and r where pixels p and r are the pixels in the gradient direction of q. If this condition is true, then we keep the pixel, otherwise we set the pixel to zero (make it a black pixel).
 
+Non maximum suppression can be achieved by interpolating the pixels for greater accuracy:
 
+![](assets/README/17.png)
 
+The result of this is:
 
+With Interpolation (diagram from Nuno Vasconcelos)                 
+:-------------------------:
+![](assets/README/10.jpg)
 
+Non maximum suppression without interpolation requires us to divide the 3x3 grid of pixels into 8 sections. Ie. if the gradient direction falls in between the angle -22.5 and 22.5, then we use the pixels that fall between this angle (r and q) as the value to compare with pixel p, see image below.
 
+![](assets/README/18.png)
 
 
 
