@@ -227,13 +227,25 @@ Double Thresholding
 
 ### STEP 6 - EDGE TRACKING BY HYSTERESIS
 
+Based on the threshold results, the hysteresis consists of transforming weak pixels into strong ones, if and only if at least one of the pixels around the one being processed is a strong one, as described below:
+
+![](assets/README/33.png)
+
+The Result is:
+
+Edge Tracking             
+:-------------------------:
+![](assets/README/11.jpg)
 
 
+### STEP 7 - CLEANING UP
+
+Finally, we will iterate through the remaining weak edges and set them to zero resulting in the final processed image:
 
 
-
-
-
+Final Result from Canny Edge Detection Algorithm      
+:-------------------------:
+![](assets/README/12.jpg)
 
 
 
