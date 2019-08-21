@@ -124,15 +124,37 @@ A rank 1 matrix has only one nonzero singular value, so U*S*V' becomes U(:,1) * 
 
 
 
+### STEP 3 - DETERMINE THE INTENSITY GRADIENTS
+
+Mathematically, the gradient of a two-variable function (here the image intensity function) at each image point is a 2D vector with the components given by the derivatives in the horizontal and vertical directions. At each image point, the gradient vector points in the direction of largest possible intensity increase, and the length of the gradient vector corresponds to the rate of change in that direction.
+
+Since the intensity function of a digital image is only known at discrete points, derivatives of this function cannot be defined unless we assume that there is an underlying continuous intensity function which has been sampled at the image points. With some additional assumptions, the derivative of the continuous intensity function can be computed as a function on the sampled intensity function, i.e., the digital image. Approximations of these derivative functions can be defined at varying degrees of accuracy. The most common way to approximate the image gradient is to ***convolve an image with a kernel, such as the Sobel operator or Prewitt operator***.
+
+So each pixel of a gradient image measures the change in intensity of that same point in the original image, in a given direction. To get the full range of direction, gradient images in the x and y directions are computed. After gradient images have been computed, pixels with large gradient values become possible edge pixels. The pixels with the largest gradient values in the direction of the gradient become edge pixels, and edges may be traced in the direction perpendicular to the gradient direction.
 
 
 
+#### Now about ***Sobel operator (or filter) or Sobel–Feldman operator***
 
+Technically, it is a ***discrete differentiation operator***, computing an approximation of the gradient of the image intensity function. At each point in the image, the result of the Sobel–Feldman operator is either the corresponding gradient vector or the norm of this vector. The Sobel–Feldman operator is based on convolving the image with a small, separable, and integer-valued filter in the horizontal and vertical directions and is therefore relatively inexpensive in terms of computations. On the other hand, the gradient approximation that it produces is relatively crude, in particular for high-frequency variations in the image.
 
+The operator uses two 3×3 kernels which are convolved with the original image to calculate approximations of the derivatives – one for horizontal changes, and one for vertical. If we define A as the source image, and Gx and Gy are two images which at each point contain the vertical and horizontal derivative approximations respectively, the computations are as follows:
 
+![](assets/README/26.png)
 
+Since the Sobel kernels can be decomposed as the products of an averaging and a differentiation kernel, they compute the gradient with smoothing. For example, {\displaystyle \mathbf {G} _{x}} {\displaystyle \mathbf {G} _{x}} can be written as
 
+![](assets/README/27.png)
 
+The x-coordinate is defined here as increasing in the "right"-direction, and the y-coordinate is defined as increasing in the "down"-direction. At each point in the image, the resulting gradient approximations can be combined to give the gradient magnitude, using:
+
+![](assets/README/28.png)
+
+Using this information, we can also calculate the gradient's direction:
+
+![](assets/README/29.png)
+
+where, for example, Θ is 0 for a vertical edge which is lighter on the right side.
 
 
 
