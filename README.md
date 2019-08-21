@@ -50,7 +50,7 @@ For example:
 
 Original                   |  Grayscale (avg)
 :-------------------------:|:-------------------------:
-![](assets/README/21.jpg)   |  ![](assets/README/22.jpg)
+![](assets/README/20.jpg)   |  ![](assets/README/21.jpg)
 
 ##### Explanation
 There is one thing to be sure, that something happens to the original works. It means that our average method works. But the results were not as expected. We wanted to convert the image into a grayscale, but this turned out to be a rather black image.
@@ -78,7 +78,7 @@ Applying this equation to the image, we get this
 
 Original                   |  Grayscale (luminosity)
 :-------------------------:|:-------------------------:
-![](assets/README/21.jpg)   |  ![](assets/README/23.jpg)
+![](assets/README/20.jpg)   |  ![](assets/README/22.jpg)
 
 ##### Explanation
 As you can see here, that the image has now been properly converted to grayscale using weighted method. As compare to the result of average method, this image is more brighter.
