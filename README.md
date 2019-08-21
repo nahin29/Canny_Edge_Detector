@@ -164,27 +164,76 @@ where, for example, Θ is 0 for a vertical edge which is lighter on the right si
 
 ### STEP 4 - NON MAXIMUM SUPPRESSION
 
-The image magnitude produced results in thick edges. Ideally, the final image should have thin edges. Thus, we must perform non maximum suppression to thin out the edges.
+Ideally, the final image should have thin edges. Thus, we must perform non-maximum suppression to thin out the edges.
+The principle is simple: the algorithm goes through all the points on the gradient intensity matrix and finds the pixels with the maximum value in the edge directions.
+Let’s take an easy example:
 
-With Interpolation (diagram from Nuno Vasconcelos)                 
-:-------------------------:
-![](assets/README/9.png)
+![](assets/README/30.png)
 
-Non maximum suppression works by finding the pixel with the maximum value in an edge. In the above image, it occurs when pixel q has an intensity that is larger than both p and r where pixels p and r are the pixels in the gradient direction of q. If this condition is true, then we keep the pixel, otherwise we set the pixel to zero (make it a black pixel).
+The upper left corner red box present on the above image, represents an intensity pixel of the Gradient Intensity matrix being processed. The corresponding edge direction is represented by the orange arrow with an angle of -pi radians (+/-180 degrees).
 
-Non maximum suppression can be achieved by interpolating the pixels for greater accuracy:
+![](assets/README/31.png)
 
-![](assets/README/17.png)
+The edge direction is the orange dotted line (horizontal from left to right). The purpose of the algorithm is to check if the pixels on the same direction are more or less intense than the ones being processed. In the example above, the pixel (i, j) is being processed, and the pixels on the same direction are highlighted in blue (i, j-1) and (i, j+1). If one those two pixels are more intense than the one being processed, then only the more intense one is kept. Pixel (i, j-1) seems to be more intense, because it is white (value of 255). Hence, the intensity value of the current pixel (i, j) is set to 0. If there are no pixels in the edge direction having more intense values, then the value of the current pixel is kept.
+
+Let’s now focus on another example:
+
+![](assets/README/32.png)
+
+In this case the direction is the orange dotted diagonal line. Therefore, the most intense pixel in this direction is the pixel (i-1, j+1).
+
+***Let’s sum this up***. Each pixel has 2 main criteria (edge direction in radians, and pixel intensity (between 0–255)). Based on these inputs the non-max-suppression steps are:
+
+* Create a matrix initialized to 0 of the same size of the original gradient intensity matrix;
+
+* Identify the edge direction based on the angle value from the angle matrix;
+
+* Check if the pixel in the same direction has a higher intensity than the pixel that is currently processed;
+
+* Return the image processed with the non-max suppression algorithm.
 
 The result of this is:
 
-With Interpolation (diagram from Nuno Vasconcelos)                 
-:-------------------------:
 ![](assets/README/10.jpg)
 
-Non maximum suppression without interpolation requires us to divide the 3x3 grid of pixels into 8 sections. Ie. if the gradient direction falls in between the angle -22.5 and 22.5, then we use the pixels that fall between this angle (r and q) as the value to compare with pixel p, see image below.
 
-![](assets/README/18.png)
+
+
+### STEP 5 - DOUBLE THRESHOLDING
+
+The double threshold step aims at identifying 3 kinds of pixels: ***strong***, ***weak***, and ***non-relevant***:
+
+* Strong pixels are pixels that have an intensity so high that we are sure they contribute to the final edge.
+
+* Weak pixels are pixels that have an intensity value that is not enough to be considered as strong ones, but yet not small enough to be considered as non-relevant for the edge detection.
+
+* Other pixels are considered as non-relevant for the edge.
+
+Now you can see what the double thresholds holds for:
+
+* High threshold is used to identify the strong pixels (intensity higher than the high threshold)
+
+* Low threshold is used to identify the non-relevant pixels (intensity lower than the low threshold)
+
+* All pixels having intensity between both thresholds are flagged as weak and the Hysteresis mechanism (next step) will help us identify the ones that could be considered as strong and the ones that are considered as non-relevant.
+
+
+The result of this step is an image with only 2 pixel intensity values (strong and weak):
+
+Double Thresholding                
+:-------------------------:
+![](assets/README/11.jpg)
+
+
+### STEP 6 - EDGE TRACKING BY HYSTERESIS
+
+
+
+
+
+
+
+
 
 
 
