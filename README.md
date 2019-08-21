@@ -90,7 +90,50 @@ Perform a Gaussian blur on the image. The blur removes some of the noise before 
 
 Gaussian Blur                   
 :-------------------------:
-![](assets/README/5.jpg)   
+![](assets/README/5.jpg)
+
+Mathematically, applying a Gaussian blur to an image is the same as ***convolving*** the image with a Gaussian function. This is also known as a ***two-dimensional Weierstrass transform***. 
+
+Specifically, a Gaussian kernel (used for Gaussian blur) is a square array of pixels where the pixel values correspond to the values of a Gaussian curve (in 2D).
+
+Gaussian kernel                   
+:-------------------------:
+![](assets/README/23.gif)
+
+Each pixel in the image gets multiplied by the Gaussian kernel. This is done by placing the center pixel of the kernel on the image pixel and multiplying the values in the original image with the pixels in the kernel that overlap. The values resulting from these multiplications are added up and that result is used for the value at the destination pixel. Looking at the image, you would multiply the value at (0,0) in the input array by the value at (i) in the kernel array, the value at (1,0) in the input array by the value at (h) in the kernel array, and so on. and then add all these values to get the value for (1,1) at the output image.
+
+Convolution                   
+:-------------------------:
+![](assets/README/24.jpg)
+
+Convolution can be done by multiplying each input pixel with the entire kernel. However, if the kernel is symmetrical (which a Gaussian kernel is) you can also multiply each axis (x and y) independently, which will decrease the total number of multiplications. In proper mathematical terms, if a matrix is separable it can be decomposed into (M×1) and (1×N) matrices. For the Gaussian kernel above this means you can also use the following kernels:
+
+Kernel Decomposition                   
+:-------------------------:
+![](assets/README/25.png)
+
+You would now multiply each pixel in the input image with both kernels and add the resulting values to get the value for the output pixel.
+
+##### Additional resourse:
+
+If the 2D filter kernel has a rank of 1 then it is separable.
+
+But how can we determine the outer product vectors? The answer is to go back to the svd function. Here's a snippet: 
+[U,S,V] = svd(X) produces a diagonal matrix S of the same dimension as X, with nonnegative diagonal elements in decreasing order, and unitary matrices U and V so that X = U*S*V'.
+A rank 1 matrix has only one nonzero singular value, so U*S*V' becomes U(:,1) * S(1,1) * V(:,1)'. This is basically the outer product we were seeking. Therefore, we want the first columns of U and V. (We have to remember also to use the nonzero singular value as a scale factor.)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
